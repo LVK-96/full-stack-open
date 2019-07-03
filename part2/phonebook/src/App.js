@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Filter from './Components/Filter'
 import NewContact from './Components/NewContact'
 import ContactList from './Components/ContactList'
-import axios from 'axios';
+import personService from './services/persons'
 
 const App = () => {
     const [ persons, setPersons ] = useState([]) 
@@ -11,10 +11,9 @@ const App = () => {
     const [ newNumber, setNewNumber ] = useState('')
     
     const hook = () => {
-        axios
-            .get('http://localhost:3001/persons')
-            .then(response => {
-                setPersons(response.data)
+        personService.getAll()
+            .then(initialPersons => {
+                setPersons(initialPersons)
             })
     }
     
@@ -30,7 +29,8 @@ const App = () => {
              newName={newName} setNewName={setNewName} newNumber={newNumber} 
              setNewNumber={setNewNumber} />
             <h2>Numbers</h2>
-            <ContactList persons={persons} contactFilter={contactFilter} />
+            <ContactList persons={persons} contactFilter={contactFilter} 
+             setPersons={setPersons} />
         </div>
     )
 }
