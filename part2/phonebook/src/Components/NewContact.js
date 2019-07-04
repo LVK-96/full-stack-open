@@ -2,7 +2,7 @@ import React from 'react'
 import personService from '../services/persons'
 
 const NewContact = ({ persons, setPersons, setNewName, setNewNumber, 
-                     newName, newNumber }) => {
+                     newName, newNumber, setNotificationMessage }) => {
     const addContact = (event) => {
         event.preventDefault()
         if (persons.map(person => person.name).includes(newName)) {
@@ -17,6 +17,27 @@ const NewContact = ({ persons, setPersons, setNewName, setNewNumber,
                                    ? p : returnedObj))
                         setNewName('')
                         setNewNumber('')
+                        setNotificationMessage({
+                            msg: `Changed number for ${changedObj.name}`,
+                            error: false
+                        })
+                        setTimeout(() => setNotificationMessage({
+                            msg: null,
+                            error: false
+                        }), 5000)
+                    })
+                    .catch(e => {
+                        setNotificationMessage({
+                            msg: `${changedObj.name} is already deleted 
+                                  from the server`,
+                            error: true
+                        })
+                        setTimeout(() => setNotificationMessage({
+                            msg: null,
+                            error: false
+                        }), 5000)
+                        setPersons(persons.filter(person => 
+                                   person.id !== changedObj.id))
                     })
             }
         } else {
@@ -29,6 +50,14 @@ const NewContact = ({ persons, setPersons, setNewName, setNewNumber,
                     setPersons(persons.concat(returnedPerson))
                     setNewName('')
                     setNewNumber('')
+                    setNotificationMessage({
+                        msg: `Added ${returnedPerson.name}`,
+                        error: false
+                    })
+                    setTimeout(() => setNotificationMessage({
+                        msg: null,
+                        error: false
+                    }), 5000)
                 })
         }
     }
