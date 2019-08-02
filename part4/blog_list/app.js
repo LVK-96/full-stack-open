@@ -1,10 +1,11 @@
-const config = require('./utils/config')
-const express = require('express')
-const bodyParser = require('body-parser')
-const app = express()
-const cors = require('cors')
-const blogsRouter = require('./controllers/blogs')
-const mongoose = require('mongoose')
+const express = require('express');
+const bodyParser = require('body-parser');
+
+const app = express();
+const cors = require('cors');
+const mongoose = require('mongoose');
+const blogsRouter = require('./controllers/blogs');
+const config = require('./utils/config');
 
 mongoose.connect(config.MONGODB_URI, { useNewUrlParser: true });
 
