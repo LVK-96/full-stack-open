@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const supertest = require('supertest');
 const helper = require('./test_helper');
 const app = require('../app');
+
 const api = supertest(app);
 
 const Blog = require('../models/blog');
@@ -23,7 +24,7 @@ test('blogs are returned as json', async () => {
 
 test('unique identifier property is named id', async () => {
   const response = await api.get('/api/blogs');
-  const body  = response.body;
+  const { body } = response;
   body.forEach(b => expect(b.id).toBeDefined());
 });
 
@@ -43,7 +44,7 @@ test('post request creates new blog', async () => {
 
   const blogsAfterPost = await helper.blogsInDb();
   expect(blogsAfterPost.length).toBe(helper.initialBlogs.length + 1);
-  
+
   const newBlogFromDb = blogsAfterPost.filter(blog => blog.title === 'Canonical string reduction')[0];
   expect(newBlogFromDb.title).toBe('Canonical string reduction');
   expect(newBlogFromDb.author).toBe('Edsger W. Dijkstra');
@@ -63,7 +64,7 @@ test('likes are initialised to 0 if missing from post request', async () => {
     .send(newBlog)
     .expect(200)
     .expect('Content-Type', /application\/json/);
-  
+
   const blogsAfterPost = await helper.blogsInDb();
   const newBlogFromDb = blogsAfterPost.filter(blog => blog.title === 'Canonical string reduction')[0];
   expect(newBlogFromDb.likes).toBe(0);
@@ -72,12 +73,12 @@ test('likes are initialised to 0 if missing from post request', async () => {
 test('if title and url are missing respond with 400', async () => {
   const newBlog = {
     author: 'Edsger W. Dijkstra',
-    likes: 1
+    likes: 1,
   };
   await api
     .post('/api/blogs')
     .send(newBlog)
-    .expect(400)
+    .expect(400);
 });
 
 afterAll(() => {
