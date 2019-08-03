@@ -20,7 +20,7 @@ const initialBlogs = [
 ];
 
 const blogsInDb = async () => {
-  try { 
+  try {
     const blogs = await Blog.find({});
     return blogs.map(blog => blog.toJSON());
   } catch (e) {

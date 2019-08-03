@@ -95,8 +95,8 @@ describe('deleting blogs', () => {
       .expect(204);
 
     expect(await helper.blogsInDb()).not.toContainEqual(toBeDeleted);
-  }); 
-  
+  });
+
   test('delete non existing blog returns 400', async () => {
     const blogsAtStart = await helper.blogsInDb();
     const toBeDeleted = blogsAtStart[0];
@@ -104,7 +104,7 @@ describe('deleting blogs', () => {
     await api
       .delete('/api/blogs/notvalid')
       .expect(400);
-  }); 
+  });
 });
 
 describe('updating existing blogs', () => {
@@ -114,13 +114,13 @@ describe('updating existing blogs', () => {
 
     const newValues = {
       likes: 404,
-    }
+    };
 
     await api
       .put(`/api/blogs/${toBeUpdated.id}`)
       .send(newValues)
       .expect(200);
-    
+
     const blogsAfterUpdate = await helper.blogsInDb();
     const updated = blogsAfterUpdate.filter(blog => blog.id === toBeUpdated.id)[0];
     expect(updated).toBeDefined;
@@ -128,12 +128,12 @@ describe('updating existing blogs', () => {
     expect(updated.author).toBe(toBeUpdated.author);
     expect(updated.url).toBe(toBeUpdated.url);
     expect(updated.likes).toBe(404);
-  }); 
+  });
 
   test('update without new no. of likes returns 400', async () => {
     const blogsAtStart = await helper.blogsInDb();
     const toBeUpdated = blogsAtStart[0];
-    
+
     await api
       .put(`/api/blogs/${toBeUpdated.id}`)
       .send()
