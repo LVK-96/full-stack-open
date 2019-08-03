@@ -9,13 +9,14 @@ blogsRouter.get('/blogs', (request, response) => {
     });
 });
 
-blogsRouter.post('/blogs', (request, response) => {
+blogsRouter.post('/blogs', async (request, response, next) => {
   const blog = new Blog(request.body);
-  blog
-    .save()
-    .then((result) => {
-      response.status(201).json(result);
-    });
+  try {
+    const savedBlog = await blog.save();
+    response.json(savedBlog.toJSON());
+  } catch(e) {
+    next(e);
+  }
 });
 
 module.exports = blogsRouter;
