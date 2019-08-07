@@ -14,13 +14,13 @@ blogsRouter.get('/', async (request, response, next) => {
 blogsRouter.post('/', async (request, response, next) => {
   const users = await User.find({});
   const user = users[0];
-  const body = request.body;
+  const { body } = request;
   const blog = new Blog({
     title: body.title,
     author: body.author,
     url: body.url,
     likes: body.likes,
-    user: user._id
+    user: user._id,
   });
 
   try {
