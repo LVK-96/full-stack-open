@@ -1,0 +1,80 @@
+import React, { useState, useEffect } from 'react';
+import blogService from './services/blogs';
+import Blog from './components/Blog';
+import Login from './components/Login';
+import Logout from './components/Logout';
+import NewBlog from './components/NewBlog';
+import Notification from './components/Notification';
+
+const App = () => {
+  const [blogs, setBlogs] = useState([]);
+  const [user, setUser] = useState(null);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [newBlogName, setNewBlogName] = useState('');
+  const [newBlogAuthor, setNewBlogAuthor] = useState('');
+  const [newBlogUrl, setNewBlogUrl] = useState('');
+  const [notificationMessage, setNotificationMessage] = useState('');
+
+  useEffect(() => {
+    async function getBlogs() {
+      try {
+        const initialBlogs = await blogService.getAll();
+        setBlogs(initialBlogs);
+      } catch (e) {
+        setNotificationMessage(e.message);
+        setTimeout(() => setNotificationMessage(null), 5000);
+      }
+    }
+
+    getBlogs();
+  }, []);
+
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser');
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON);
+      setUser(user);
+      blogService.setToken(user.token);
+    }
+  }, []);
+
+  if (user === null) {
+    return (
+      <div>
+        <Notification message={notificationMessage} />
+        <Login
+          username={username}
+          setUsername={setUsername}
+          password={password}
+          setPassword={setPassword}
+          user={user}
+          setUser={setUser}
+          setNotificationMessage={setNotificationMessage}
+        />
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <Notification message={notificationMessage} />
+      <Logout user={user} />
+      <NewBlog
+        newBlogName={newBlogName}
+        setNewBlogName={setNewBlogName}
+        newBlogAuthor={newBlogAuthor}
+        setNewBlogAuthor={setNewBlogAuthor}
+        newBlogUrl={newBlogUrl}
+        setNewBlogUrl={setNewBlogUrl}
+        blogs={blogs}
+        setBlogs={setBlogs}
+        setNotificationMessage={setNotificationMessage}
+      />
+      <h2>blogs</h2>
+      {blogs.map((blog) => <Blog key={blog.id} blog={blog} />)}
+    </div>
+  );
+};
+
+export default App;
