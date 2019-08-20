@@ -5,6 +5,7 @@ const NewBlog = ({
   newBlogName, setNewBlogName, newBlogAuthor,
   setNewBlogAuthor, newBlogUrl, setNewBlogUrl,
   blogs, setBlogs, setNotificationMessage,
+  addBlogVisible, setAddBlogVisible,
 }) => {
   const addBlog = async (event) => {
     try {
@@ -20,6 +21,7 @@ const NewBlog = ({
       setBlogs(newBlogs);
       setNotificationMessage(`${newBlog.title} added`);
       setTimeout(() => setNotificationMessage(null), 5000);
+      setAddBlogVisible(false);
     } catch (e) {
       setNotificationMessage(e.message);
       setTimeout(() => setNotificationMessage(null), 5000);
@@ -28,7 +30,6 @@ const NewBlog = ({
 
   return (
     <div>
-      <h2>add new blog</h2>
       <form onSubmit={addBlog}>
         <div>
       name:

@@ -5,6 +5,7 @@ import Login from './components/Login';
 import Logout from './components/Logout';
 import NewBlog from './components/NewBlog';
 import Notification from './components/Notification';
+import Togglable from './components/Togglable';
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
@@ -15,6 +16,8 @@ const App = () => {
   const [newBlogAuthor, setNewBlogAuthor] = useState('');
   const [newBlogUrl, setNewBlogUrl] = useState('');
   const [notificationMessage, setNotificationMessage] = useState('');
+  const [addBlogVisible, setAddBlogVisible] = useState(false);
+  const [extraBlogInfoVisible, setExtraBlogInfoVisible] = useState(false);
 
   useEffect(() => {
     async function getBlogs() {
@@ -55,24 +58,33 @@ const App = () => {
       </div>
     );
   }
-
+  
+  
   return (
     <div>
       <Notification message={notificationMessage} />
       <Logout user={user} />
-      <NewBlog
-        newBlogName={newBlogName}
-        setNewBlogName={setNewBlogName}
-        newBlogAuthor={newBlogAuthor}
-        setNewBlogAuthor={setNewBlogAuthor}
-        newBlogUrl={newBlogUrl}
-        setNewBlogUrl={setNewBlogUrl}
-        blogs={blogs}
-        setBlogs={setBlogs}
-        setNotificationMessage={setNotificationMessage}
-      />
+      <Togglable buttonLabel='add blog'>
+        <NewBlog
+          newBlogName={newBlogName}
+          setNewBlogName={setNewBlogName}
+          newBlogAuthor={newBlogAuthor}
+          setNewBlogAuthor={setNewBlogAuthor}
+          newBlogUrl={newBlogUrl}
+          setNewBlogUrl={setNewBlogUrl}
+          blogs={blogs}
+          setBlogs={setBlogs}
+          setNotificationMessage={setNotificationMessage}
+          addBlogVisible={addBlogVisible}
+          setAddBlogVisible={setAddBlogVisible}
+        />
+      </Togglable>
       <h2>blogs</h2>
-      {blogs.map((blog) => <Blog key={blog.id} blog={blog} />)}
+      {blogs.map((blog) => 
+        <Blog key={blog.id} blog={blog} 
+         extraBlogInfoVisible={extraBlogInfoVisible} 
+         setExtraBlogInfoVisible={setExtraBlogInfoVisible} />
+      )}
     </div>
   );
 };
