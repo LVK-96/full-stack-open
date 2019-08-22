@@ -57,13 +57,13 @@ const App = () => {
       </div>
     );
   }
-  
-  
+
+
   return (
     <div>
       <Notification message={notificationMessage} />
       <Logout user={user} />
-      <Togglable buttonLabel='add blog'>
+      <Togglable buttonLabel="add blog">
         <NewBlog
           newBlogName={newBlogName}
           setNewBlogName={setNewBlogName}
@@ -79,10 +79,15 @@ const App = () => {
         />
       </Togglable>
       <h2>blogs</h2>
-      {blogs.sort((a, b) => a.likes < b.likes).map((blog) => 
-        <Blog key={blog.id} blog={blog} blogs={blogs} setBlogs={setBlogs} 
-         user={user} />
-      )}
+      {blogs.sort((a, b) => a.likes < b.likes).map((blog) => (
+        <Blog
+          key={blog.id}
+          blog={blog}
+          blogs={blogs}
+          setBlogs={setBlogs}
+          user={user}
+        />
+      ))}
     </div>
   );
 };

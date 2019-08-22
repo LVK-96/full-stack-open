@@ -3,7 +3,7 @@ import loginService from '../services/login';
 import blogService from '../services/blogs';
 
 const Login = ({
-  username, setUsername, password, setPassword, user, setUser, setNotificationMessage,
+  username, setUsername, password, setPassword, setUser, setNotificationMessage,
 }) => {
   const handleLogin = async (event) => {
     event.preventDefault();

@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Logout = ({ user }) => {
-  const handleLogout = (event) => {
+  const handleLogout = () => {
     window.localStorage.removeItem('loggedBlogappUser');
     window.location.reload();
   };

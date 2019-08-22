@@ -13,7 +13,7 @@ const getAll = async () => {
     const response = await axios.get(baseUrl);
     return response.data;
   } catch (exception) {
-    console.log(exception); 
+    console.log(exception);
     return null;
   }
 };
@@ -46,7 +46,7 @@ const update = async (id, newObject) => {
   }
 };
 
-const remove = async (id, newObject) => {
+const remove = async (id) => {
   const config = {
     headers: { Authorization: token },
   };
@@ -60,5 +60,5 @@ const remove = async (id, newObject) => {
   }
 };
 export default {
-  setToken, getAll, create, update, remove
+  setToken, getAll, create, update, remove,
 };

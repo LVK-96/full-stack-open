@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import blogService from '../services/blogs';
 
-const Blog = ({ blog, blogs, setBlogs, user }) => {
+const Blog = ({
+  blog, blogs, setBlogs, user,
+}) => {
   const [extraBlogInfoVisible, setExtraBlogInfoVisible] = useState(false);
   const [likes, setLikes] = useState(blog.likes);
 
@@ -11,9 +14,9 @@ const Blog = ({ blog, blogs, setBlogs, user }) => {
     border: 'solid',
     borderWidth: 1,
     marginBottom: 5,
-    display: extraBlogInfoVisible ? '' : 'none'
-  }
- 
+    display: extraBlogInfoVisible ? '' : 'none',
+  };
+
   const removeVisible = { display: blog.user.id === user.id ? '' : 'none' };
 
   const handleLikeClick = (event) => {
@@ -21,16 +24,16 @@ const Blog = ({ blog, blogs, setBlogs, user }) => {
     const likedBlog = { ...blog, likes: likes + 1 };
     blogService.update(blog.id, likedBlog);
     setLikes(likedBlog.likes);
-    setBlogs(blogs.filter(blog => blog.id !== likedBlog.id).concat(likedBlog));
-  }
+    setBlogs(blogs.filter((blog) => blog.id !== likedBlog.id).concat(likedBlog));
+  };
 
   const handleRemoveClick = (event) => {
     event.preventDefault();
     const removedBlog = blog;
     window.confirm(`remove ${blog.name} by ${blog.author}`);
     blogService.remove(blog.id);
-    setBlogs(blogs.filter(blog => blog.id !== removedBlog.id));
-  }
+    setBlogs(blogs.filter((blog) => blog.id !== removedBlog.id));
+  };
 
   return (
     <div>
@@ -41,24 +44,35 @@ const Blog = ({ blog, blogs, setBlogs, user }) => {
       </div>
       <div style={blogStyle}>
         <div>
-          {likes} likes 
+          {likes}
+          {' '}
+likes
           <div>
             <button onClick={handleLikeClick}>
               like
             </button>
           </div>
-        </div> 
+        </div>
         <div>
-          added by {blog.user.name}
-        </div> 
-          <div>
-            <button onClick={handleRemoveClick} style={removeVisible} >
+          added by
+          {' '}
+          {blog.user.name}
+        </div>
+        <div>
+          <button onClick={handleRemoveClick} style={removeVisible}>
               remove
-            </button>
-          </div>
+          </button>
+        </div>
       </div>
     </div>
   );
-}
+};
+
+Blog.propTypes = {
+  blog: PropTypes.object.isRequired,
+  blogs: PropTypes.array.isRequired,
+  setBlogs: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired,
+};
 
 export default Blog;

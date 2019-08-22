@@ -4,8 +4,7 @@ import blogService from '../services/blogs';
 const NewBlog = ({
   newBlogName, setNewBlogName, newBlogAuthor,
   setNewBlogAuthor, newBlogUrl, setNewBlogUrl,
-  blogs, setBlogs, setNotificationMessage,
-  addBlogVisible, setAddBlogVisible,
+  setBlogs, setNotificationMessage, setAddBlogVisible,
 }) => {
   const addBlog = async (event) => {
     try {
