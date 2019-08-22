@@ -1,16 +1,17 @@
-import React from 'react';
-
-const blogStyle = {
-  paddingTop: 10,
-  paddingLeft: 2,
-  border: 'solid',
-  borderWidth: 1,
-  marginBottom: 5
-}
+import React, { useState } from 'react';
 
 
-const Blog = ({ blog, extraBlogInfoVisible, setExtraBlogInfoVisible }) => {
-  const showWhenVisible = { display: extraBlogInfoVisible ? '' : 'none' };
+const Blog = ({ blog }) => {
+  const [extraBlogInfoVisible, setExtraBlogInfoVisible] = useState(false);
+  
+  const blogStyle = {
+    paddingTop: 10,
+    paddingLeft: 2,
+    border: 'solid',
+    borderWidth: 1,
+    marginBottom: 5,
+    display: extraBlogInfoVisible ? '' : 'none'
+  }
 
   return (
     <div>
@@ -19,7 +20,7 @@ const Blog = ({ blog, extraBlogInfoVisible, setExtraBlogInfoVisible }) => {
         {' '}
         {blog.author}
       </div>
-      <div style={showWhenVisible}>
+      <div style={blogStyle} onClick={() => setExtraBlogInfoVisible(false)}>
         <div>
           {blog.likes} likes
         </div> 

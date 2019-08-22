@@ -17,7 +17,6 @@ const App = () => {
   const [newBlogUrl, setNewBlogUrl] = useState('');
   const [notificationMessage, setNotificationMessage] = useState('');
   const [addBlogVisible, setAddBlogVisible] = useState(false);
-  const [extraBlogInfoVisible, setExtraBlogInfoVisible] = useState(false);
 
   useEffect(() => {
     async function getBlogs() {
@@ -81,9 +80,7 @@ const App = () => {
       </Togglable>
       <h2>blogs</h2>
       {blogs.map((blog) => 
-        <Blog key={blog.id} blog={blog} 
-         extraBlogInfoVisible={extraBlogInfoVisible} 
-         setExtraBlogInfoVisible={setExtraBlogInfoVisible} />
+        <Blog key={blog.id} blog={blog} />
       )}
     </div>
   );
