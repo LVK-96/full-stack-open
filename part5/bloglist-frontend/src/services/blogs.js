@@ -9,8 +9,13 @@ const setToken = (newToken) => {
 };
 
 const getAll = async () => {
-  const response = await axios.get(baseUrl);
-  return response.data;
+  try {
+    const response = await axios.get(baseUrl);
+    return response.data;
+  } catch (exception) {
+    console.log(exception); 
+    return null;
+  }
 };
 
 const create = async (newObject) => {
@@ -18,15 +23,42 @@ const create = async (newObject) => {
     headers: { Authorization: token },
   };
 
-  const response = await axios.post(baseUrl, newObject, config);
-  return response.data;
+  try {
+    const response = await axios.post(baseUrl, newObject, config);
+    return response.data;
+  } catch (exception) {
+    console.log(exception);
+    return null;
+  }
 };
 
 const update = async (id, newObject) => {
-  const response = await axios.put(`${baseUrl} /${id}`, newObject);
-  return response.data;
+  const config = {
+    headers: { Authorization: token },
+  };
+
+  try {
+    const response = await axios.put(`${baseUrl}/${id}`, newObject, config);
+    return response.data;
+  } catch (exception) {
+    console.log(exception);
+    return null;
+  }
 };
 
+const remove = async (id, newObject) => {
+  const config = {
+    headers: { Authorization: token },
+  };
+
+  try {
+    const response = await axios.delete(`${baseUrl}/${id}`, config);
+    return response.data;
+  } catch (exception) {
+    console.log(exception);
+    return null;
+  }
+};
 export default {
-  setToken, getAll, create, update,
+  setToken, getAll, create, update, remove
 };
