@@ -43,7 +43,7 @@ const App = () => {
 
   if (user === null) {
     return (
-      <div>
+      <div className='Login'>
         <Notification message={notificationMessage} />
         <Login
           username={username}
@@ -59,7 +59,7 @@ const App = () => {
   }
 
   return (
-    <div>
+    <div className='blogList'>
       <Notification message={notificationMessage} />
       <Logout user={user} />
       <Togglable buttonLabel="add blog">
