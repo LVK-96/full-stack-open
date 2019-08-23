@@ -7,8 +7,8 @@ const blogs = [
       name: 'name1',
       username: 'username1',
       id: '1'
-   },
-   id: '1'
+    },
+    id: '1'
   },
   {
     title: 'title2',
@@ -27,10 +27,7 @@ const getAll = () => {
   return Promise.resolve(blogs);
 };
 
-let token = null;
-const setToken = (newToken) => {
-  token = `bearer ${newToken}`;
-}
+const setToken = (newToken) => {};
 
 export default {
   getAll, setToken

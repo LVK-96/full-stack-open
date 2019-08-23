@@ -13,7 +13,7 @@ describe('<App />', () => {
 
     await waitForElement(
       () => component.getByText('login')
-    ); 
+    );
 
     const blogList = component.container.querySelector('.blogList');
     const Login = component.container.querySelector('.Login');
@@ -33,10 +33,10 @@ describe('<App />', () => {
     const component = render(
       <App />
     );
-    
+
     await waitForElement(
       () => component.container.querySelector('.blogList')
-    ); 
+    );
 
     const blogList = component.container.querySelector('.blogList');
     const Login = component.container.querySelector('.Login');

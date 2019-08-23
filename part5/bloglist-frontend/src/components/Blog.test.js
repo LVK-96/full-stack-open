@@ -1,7 +1,6 @@
 import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
-import { render, fireEvent, cleanup } from '@testing-library/react';
-import { prettyDOM } from '@testing-library/dom';
+import { render, cleanup } from '@testing-library/react';
 import Blog from './Blog';
 
 afterEach(cleanup);
@@ -60,7 +59,7 @@ test('extra info rendered after click on basic info', () => {
   expect(basicInfo).toHaveTextContent(
     'title author'
   );
-  
+
   basicInfo.click();
   const likes = component.container.querySelector('.likes');
   const likeButton = component.container.querySelector('.likeButton');
@@ -69,11 +68,11 @@ test('extra info rendered after click on basic info', () => {
   expect(likes).toHaveTextContent(
     '1 likes'
   );
-  
+
   expect(likeButton).toHaveTextContent(
     'like'
   );
-  
+
   expect(addedBy).toHaveTextContent(
     'name'
   );
