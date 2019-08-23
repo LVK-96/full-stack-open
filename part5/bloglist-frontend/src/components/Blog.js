@@ -37,28 +37,26 @@ const Blog = ({
 
   return (
     <div>
-      <div onClick={() => setExtraBlogInfoVisible(!extraBlogInfoVisible)}>
+      <div className='basicInfo' onClick={() => setExtraBlogInfoVisible(!extraBlogInfoVisible)}>
         {blog.title}
         {' '}
         {blog.author}
       </div>
-      <div style={blogStyle}>
-        <div>
-          {likes}
-          {' '}
-likes
-          <div>
+      <div className='extraInfo' style={blogStyle}>
+        <div className='likes'>
+          {likes} {' '} likes
+          <div className='likeButton'>
             <button onClick={handleLikeClick}>
               like
             </button>
           </div>
         </div>
-        <div>
+        <div className='addedBy'>
           added by
           {' '}
           {blog.user.name}
         </div>
-        <div>
+        <div className='removeButton'>
           <button onClick={handleRemoveClick} style={removeVisible}>
               remove
           </button>

@@ -58,7 +58,6 @@ const App = () => {
     );
   }
 
-
   return (
     <div>
       <Notification message={notificationMessage} />
