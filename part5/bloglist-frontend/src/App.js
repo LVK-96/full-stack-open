@@ -10,11 +10,6 @@ import Togglable from './components/Togglable';
 const App = () => {
   const [blogs, setBlogs] = useState([]);
   const [user, setUser] = useState(null);
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [newBlogName, setNewBlogName] = useState('');
-  const [newBlogAuthor, setNewBlogAuthor] = useState('');
-  const [newBlogUrl, setNewBlogUrl] = useState('');
   const [notificationMessage, setNotificationMessage] = useState('');
   const [addBlogVisible, setAddBlogVisible] = useState(false);
 
@@ -46,10 +41,6 @@ const App = () => {
       <div className='Login'>
         <Notification message={notificationMessage} />
         <Login
-          username={username}
-          setUsername={setUsername}
-          password={password}
-          setPassword={setPassword}
           user={user}
           setUser={setUser}
           setNotificationMessage={setNotificationMessage}
@@ -64,12 +55,6 @@ const App = () => {
       <Logout user={user} />
       <Togglable buttonLabel="add blog">
         <NewBlog
-          newBlogName={newBlogName}
-          setNewBlogName={setNewBlogName}
-          newBlogAuthor={newBlogAuthor}
-          setNewBlogAuthor={setNewBlogAuthor}
-          newBlogUrl={newBlogUrl}
-          setNewBlogUrl={setNewBlogUrl}
           blogs={blogs}
           setBlogs={setBlogs}
           setNotificationMessage={setNotificationMessage}

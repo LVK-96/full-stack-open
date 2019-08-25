@@ -1,15 +1,16 @@
 import React from 'react';
 import loginService from '../services/login';
 import blogService from '../services/blogs';
+import { useField } from '../hooks';
+import _ from 'lodash';
 
-const Login = ({
-  username, setUsername, password, setPassword, setUser, setNotificationMessage,
-}) => {
+const Login = ({ setUser, setNotificationMessage }) => {
   const handleLogin = async (event) => {
     event.preventDefault();
     try {
       const user = await loginService.login({
-        username, password,
+        username: username.value, 
+        password: password.value,
       });
 
       window.localStorage.setItem(
@@ -18,8 +19,6 @@ const Login = ({
 
       blogService.setToken(user.token);
       setUser(user);
-      setUsername('');
-      setPassword('');
       setNotificationMessage('Login succesfull');
       setTimeout(() => setNotificationMessage(null), 5000);
     } catch (e) {
@@ -28,27 +27,20 @@ const Login = ({
     }
   };
 
+  const username = useField('text');
+  const password = useField('password');
+
   return (
     <div>
       <h2>Log in to application</h2>
       <form onSubmit={handleLogin}>
         <div>
           username
-          <input
-            type="text"
-            value={username}
-            name="Username"
-            onChange={({ target }) => setUsername(target.value)}
-          />
+          <input { ..._.omit(username, ['reset']) }/>
         </div>
         <div>
           password
-          <input
-            type="password"
-            value={password}
-            name="Password"
-            onChange={({ target }) => setPassword(target.value)}
-          />
+          <input { ..._.omit(password, ['reset']) }/>
         </div>
         <button type="submit">login</button>
       </form>
