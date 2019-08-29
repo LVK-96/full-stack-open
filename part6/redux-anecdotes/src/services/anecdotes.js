@@ -22,7 +22,19 @@ const create = async (content) => {
   }
 }
 
+const vote = async (anecdote) => {
+  try {
+    const votedObject = { ...anecdote, votes: anecdote.votes + 1}
+    const response = await axios.put(`${baseUrl}/${votedObject.id}`, votedObject)
+    return response.data
+  } catch (exception) {
+    console.log(exception.message)
+    return null
+  }
+}
+
 export default {
   getAll,
-  create
+  create,
+  vote
 }
