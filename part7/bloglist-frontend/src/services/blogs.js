@@ -32,13 +32,14 @@ const create = async (newObject) => {
   }
 };
 
-const update = async (id, newObject) => {
+const update = async (blog) => {
+  const id = blog.id;
   const config = {
     headers: { Authorization: token },
   };
 
   try {
-    const response = await axios.put(`${baseUrl}/${id}`, newObject, config);
+    const response = await axios.put(`${baseUrl}/${id}`, blog, config);
     return response.data;
   } catch (exception) {
     console.log(exception);
@@ -46,7 +47,8 @@ const update = async (id, newObject) => {
   }
 };
 
-const remove = async (id) => {
+const remove = async (blog) => {
+  const id = blog.id;
   const config = {
     headers: { Authorization: token },
   };
@@ -59,6 +61,7 @@ const remove = async (id) => {
     return null;
   }
 };
+
 export default {
   setToken, getAll, create, update, remove,
 };

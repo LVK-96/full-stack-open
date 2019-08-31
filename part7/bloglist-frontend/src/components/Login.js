@@ -1,30 +1,19 @@
 import React from 'react';
-import loginService from '../services/login';
-import blogService from '../services/blogs';
-import { useField } from '../hooks';
+import { connect } from 'react-redux';
 import _ from 'lodash';
+import { useField } from '../hooks';
+import { showNotificationWithTimeout } from '../reducers/notificationReducer';
+import { login } from '../reducers/userReducer';
 
-const Login = ({ setUser, setNotificationMessage }) => {
+const Login = ({ login, showNotificationWithTimeout }) => {
   const handleLogin = async (event) => {
     event.preventDefault();
-    try {
-      const user = await loginService.login({
-        username: username.value, 
-        password: password.value,
-      });
+    login({
+      username: username.value, 
+      password: password.value,
+    });
 
-      window.localStorage.setItem(
-        'loggedBlogappUser', JSON.stringify(user),
-      );
-
-      blogService.setToken(user.token);
-      setUser(user);
-      setNotificationMessage('Login succesfull');
-      setTimeout(() => setNotificationMessage(null), 5000);
-    } catch (e) {
-      setNotificationMessage('login failed');
-      setTimeout(() => setNotificationMessage(null), 5000);
-    }
+    showNotificationWithTimeout('Login succesfull', 5);
   };
 
   const username = useField('text');
@@ -48,4 +37,11 @@ const Login = ({ setUser, setNotificationMessage }) => {
   );
 };
 
-export default Login;
+const mapDispatchToProps = {
+  login,
+  showNotificationWithTimeout
+}
+
+const connectedLogin = connect(null, mapDispatchToProps)(Login);
+
+export default connectedLogin;

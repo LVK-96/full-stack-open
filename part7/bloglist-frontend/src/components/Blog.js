@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import blogService from '../services/blogs';
+import { like, removeBlog } from '../reducers/blogsReducer';
 
-const Blog = ({
-  blog, blogs, setBlogs, user,
-}) => {
+const Blog = ({ blog, user, like, removeBlog }) => {
   const [extraBlogInfoVisible, setExtraBlogInfoVisible] = useState(false);
-  const [likes, setLikes] = useState(blog.likes);
-
+  
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -21,30 +19,26 @@ const Blog = ({
 
   const handleLikeClick = (event) => {
     event.preventDefault();
-    const likedBlog = { ...blog, likes: likes + 1 };
-    blogService.update(blog.id, likedBlog);
-    setLikes(likedBlog.likes);
-    setBlogs(blogs.filter((blog) => blog.id !== likedBlog.id).concat(likedBlog));
+    like(blog);
   };
 
   const handleRemoveClick = (event) => {
     event.preventDefault();
-    const removedBlog = blog;
     window.confirm(`remove ${blog.name} by ${blog.author}`);
-    blogService.remove(blog.id);
-    setBlogs(blogs.filter((blog) => blog.id !== removedBlog.id));
+    removeBlog(blog);
   };
 
   return (
     <div>
-      <div className='basicInfo' onClick={() => setExtraBlogInfoVisible(!extraBlogInfoVisible)}>
+      <div className='basicInfo' onClick={() => 
+        setExtraBlogInfoVisible(!extraBlogInfoVisible)}>
         {blog.title}
         {' '}
         {blog.author}
       </div>
       <div className='extraInfo' style={blogStyle}>
         <div className='likes'>
-          {likes} {' '} likes
+          {blog.likes} {' '} likes
           <div className='likeButton'>
             <button onClick={handleLikeClick}>
               like
@@ -68,9 +62,20 @@ const Blog = ({
 
 Blog.propTypes = {
   blog: PropTypes.object.isRequired,
-  blogs: PropTypes.array.isRequired,
-  setBlogs: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired,
 };
 
-export default Blog;
+const mapStateToProps = (state) => {
+  return {
+    user: state.user
+  };
+};
+
+const mapDispatchToProps = {
+  like,
+  removeBlog
+}
+
+const connectedBlog = connect(mapStateToProps, mapDispatchToProps)(Blog);
+
+export default connectedBlog;

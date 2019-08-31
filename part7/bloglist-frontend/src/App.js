@@ -1,79 +1,66 @@
 import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
 import blogService from './services/blogs';
-import Blog from './components/Blog';
+import BlogList from './components/BlogList';
 import Login from './components/Login';
 import Logout from './components/Logout';
 import NewBlog from './components/NewBlog';
 import Notification from './components/Notification';
 import Togglable from './components/Togglable';
+import { initializeBlogs } from './reducers/blogsReducer';
+import { setUser } from './reducers/userReducer';
 
-const App = () => {
-  const [blogs, setBlogs] = useState([]);
-  const [user, setUser] = useState(null);
-  const [notificationMessage, setNotificationMessage] = useState('');
+const App = ({ initializeBlogs, user, setUser }) => {
   const [addBlogVisible, setAddBlogVisible] = useState(false);
 
   useEffect(() => {
-    async function getBlogs() {
-      try {
-        const initialBlogs = await blogService.getAll();
-        setBlogs(initialBlogs);
-      } catch (e) {
-        setNotificationMessage(e.message);
-        setTimeout(() => setNotificationMessage(null), 5000);
-      }
-    }
-
-    getBlogs();
-  }, []);
+    initializeBlogs();
+  }, [initializeBlogs]);
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser');
     if (loggedUserJSON) {
-      const user = JSON.parse(loggedUserJSON);
-      setUser(user);
-      blogService.setToken(user.token);
+      const userFromStorage = JSON.parse(loggedUserJSON);
+      setUser(userFromStorage);
+      blogService.setToken(userFromStorage.token);
     }
-  }, []);
+  }, [setUser]);
 
-  if (user === null) {
+  if (!user) {
     return (
       <div className='Login'>
-        <Notification message={notificationMessage} />
-        <Login
-          user={user}
-          setUser={setUser}
-          setNotificationMessage={setNotificationMessage}
-        />
+        <Notification />
+        <Login />
       </div>
     );
   }
 
   return (
     <div className='blogList'>
-      <Notification message={notificationMessage} />
-      <Logout user={user} />
+      <Notification />
+      <Logout />
       <Togglable buttonLabel="add blog">
         <NewBlog
-          blogs={blogs}
-          setBlogs={setBlogs}
-          setNotificationMessage={setNotificationMessage}
           addBlogVisible={addBlogVisible}
           setAddBlogVisible={setAddBlogVisible}
         />
       </Togglable>
-      <h2>blogs</h2>
-      {blogs.sort((a, b) => a.likes < b.likes).map((blog) => (
-        <Blog
-          key={blog.id}
-          blog={blog}
-          blogs={blogs}
-          setBlogs={setBlogs}
-          user={user}
-        />
-      ))}
+      <BlogList />
     </div>
   );
 };
 
-export default App;
+const mapStateToProps = (state) => {
+  return {
+    user: state.user
+  };
+};
+
+const mapDispatchToProps = {
+  initializeBlogs,
+  setUser
+};
+
+const connectedApp = connect(mapStateToProps, mapDispatchToProps)(App);
+
+export default connectedApp;

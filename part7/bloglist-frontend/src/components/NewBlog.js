@@ -1,9 +1,11 @@
 import React from 'react';
-import blogService from '../services/blogs';
-import { useField } from '../hooks';
+import { connect } from 'react-redux';
 import _ from 'lodash';
+import { useField } from '../hooks';
+import { showNotificationWithTimeout } from '../reducers/notificationReducer';
+import { createBlog } from '../reducers/blogsReducer';
 
-const NewBlog = ({ blogs, setBlogs, setNotificationMessage, setAddBlogVisible }) => {
+const NewBlog = ({ blogs, createBlog, showNotificationWithTimeout, setAddBlogVisible }) => {
   const addBlog = async (event) => {
     try {
       event.preventDefault();
@@ -13,18 +15,14 @@ const NewBlog = ({ blogs, setBlogs, setNotificationMessage, setAddBlogVisible })
         url: newBlogUrl.value,
       };
 
-      await blogService.create(newBlog);
-      const newBlogs = await blogService.getAll();
-      setBlogs(newBlogs);
-      setNotificationMessage(`${newBlog.title} added`);
-      setTimeout(() => setNotificationMessage(null), 5000);
+      createBlog(newBlog);
+      showNotificationWithTimeout(`${newBlog.title} added`, 5);
       setAddBlogVisible(false);
       newBlogName.reset();
       newBlogAuthor.reset();
       newBlogUrl.reset();
     } catch (e) {
-      setNotificationMessage(e.message);
-      setTimeout(() => setNotificationMessage(null), 5000);
+      showNotificationWithTimeout(e.message, 5);
     }
   };
   
@@ -58,4 +56,11 @@ const NewBlog = ({ blogs, setBlogs, setNotificationMessage, setAddBlogVisible })
   );
 };
 
-export default NewBlog;
+const mapDispatchToProps = {
+  showNotificationWithTimeout,
+  createBlog
+}
+
+const connectedNewBlog = connect(null, mapDispatchToProps)(NewBlog);
+
+export default connectedNewBlog;

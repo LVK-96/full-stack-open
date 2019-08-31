@@ -1,9 +1,10 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { logout } from '../reducers/userReducer';
 
-const Logout = ({ user }) => {
+const Logout = ({ user, logout }) => {
   const handleLogout = () => {
-    window.localStorage.removeItem('loggedBlogappUser');
-    window.location.reload();
+    logout();
   };
 
   return (
@@ -18,4 +19,16 @@ const Logout = ({ user }) => {
   );
 };
 
-export default Logout;
+const mapStateToProps = (state) => {
+  return {
+    user: state.user
+  };
+};
+
+const mapDispatchToProps = {
+  logout
+};
+
+const connectedLogout = connect(mapStateToProps, mapDispatchToProps)(Logout);
+
+export default connectedLogout;
