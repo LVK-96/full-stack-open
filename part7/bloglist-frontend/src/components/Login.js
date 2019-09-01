@@ -3,13 +3,13 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 import { useField } from '../hooks';
 import { showNotificationWithTimeout } from '../reducers/notificationReducer';
-import { login } from '../reducers/userReducer';
+import { login } from '../reducers/loginReducer';
 
 const Login = ({ login, showNotificationWithTimeout }) => {
   const handleLogin = async (event) => {
     event.preventDefault();
     login({
-      username: username.value, 
+      username: username.value,
       password: password.value,
     });
 
@@ -40,7 +40,7 @@ const Login = ({ login, showNotificationWithTimeout }) => {
 const mapDispatchToProps = {
   login,
   showNotificationWithTimeout
-}
+};
 
 const connectedLogin = connect(null, mapDispatchToProps)(Login);
 

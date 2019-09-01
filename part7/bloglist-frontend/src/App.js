@@ -1,28 +1,34 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import blogService from './services/blogs';
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 import BlogList from './components/BlogList';
+import UserList from './components/UserList';
+import Menu from './components/Menu';
 import Login from './components/Login';
 import Logout from './components/Logout';
 import NewBlog from './components/NewBlog';
 import Notification from './components/Notification';
 import Togglable from './components/Togglable';
 import { initializeBlogs } from './reducers/blogsReducer';
-import { setUser } from './reducers/userReducer';
+import { initializeUsers } from './reducers/usersReducer';
+import { setUser } from './reducers/loginReducer';
 
-const App = ({ initializeBlogs, user, setUser }) => {
+const App = ({ initializeBlogs, initializeUsers,  user, setUser }) => {
   const [addBlogVisible, setAddBlogVisible] = useState(false);
 
   useEffect(() => {
     initializeBlogs();
   }, [initializeBlogs]);
+  
+  useEffect(() => {
+    initializeUsers();
+  }, [initializeUsers]);
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser');
     if (loggedUserJSON) {
       const userFromStorage = JSON.parse(loggedUserJSON);
       setUser(userFromStorage);
-      blogService.setToken(userFromStorage.token);
     }
   }, [setUser]);
 
@@ -36,29 +42,40 @@ const App = ({ initializeBlogs, user, setUser }) => {
   }
 
   return (
-    <div className='blogList'>
-      <Notification />
-      <Logout />
-      <Togglable buttonLabel="add blog">
-        <NewBlog
-          addBlogVisible={addBlogVisible}
-          setAddBlogVisible={setAddBlogVisible}
-        />
-      </Togglable>
-      <BlogList />
-    </div>
+    <Router>
+      <div className='blogList'>
+        <Notification />
+        <Menu />
+        <Logout />
+          <Route exact path='/' render={() => 
+          <div>
+            <Togglable buttonLabel="add blog">
+              <NewBlog
+                addBlogVisible={addBlogVisible}
+                setAddBlogVisible={setAddBlogVisible}
+              />
+            </Togglable>
+            <BlogList />
+          </div>} />
+          <Route exact path='/users' render={() => 
+            <div>
+              <UserList />
+            </div>} />
+      </div>
+    </Router>
   );
 };
 
 const mapStateToProps = (state) => {
   return {
-    user: state.user
+    user: state.loggedUser
   };
 };
 
 const mapDispatchToProps = {
   initializeBlogs,
-  setUser
+  setUser,
+  initializeUsers
 };
 
 const connectedApp = connect(mapStateToProps, mapDispatchToProps)(App);

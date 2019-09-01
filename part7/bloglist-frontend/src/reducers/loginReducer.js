@@ -7,13 +7,12 @@ export const login = (user) => {
     window.localStorage.setItem(
       'loggedBlogappUser', JSON.stringify(loggedUser),
     );
-    blogService.setToken(loggedUser.token);
     dispatch({
       type: 'LOGIN',
       data: loggedUser
-    })
-  }
-}
+    });
+  };
+};
 
 export const logout = () => {
   window.localStorage.removeItem('loggedBlogappUser');
@@ -21,34 +20,35 @@ export const logout = () => {
   return async dispatch => {
     dispatch({
       type: 'LOGOUT',
-    })
-  }
-}
+    });
+  };
+};
 
 export const setUser = (user) => {
+  blogService.setToken(user.token);
   return async dispatch => {
     dispatch({
       type: 'SET_USER',
       data: user
-    })
-  }
-}
+    });
+  };
+};
 
 const userReducer = (state = null, action) => {
   switch (action.type) {
-    case 'LOGIN': 
-     return action.data
-        
-    case 'LOGOUT':
-      return null
-    
-    case 'SET_USER':
-      return action.data
+  case 'LOGIN':
+    return action.data;
 
-    default:
-      return state
+  case 'LOGOUT':
+    return null;
+
+  case 'SET_USER':
+    return action.data;
+
+  default:
+    return state;
   }
-}
+};
 
-export default userReducer
+export default userReducer;
 

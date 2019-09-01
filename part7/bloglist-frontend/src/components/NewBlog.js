@@ -25,7 +25,7 @@ const NewBlog = ({ blogs, createBlog, showNotificationWithTimeout, setAddBlogVis
       showNotificationWithTimeout(e.message, 5);
     }
   };
-  
+
   const newBlogName = useField('text');
   const newBlogAuthor = useField('text');
   const newBlogUrl = useField('text');
@@ -59,7 +59,7 @@ const NewBlog = ({ blogs, createBlog, showNotificationWithTimeout, setAddBlogVis
 const mapDispatchToProps = {
   showNotificationWithTimeout,
   createBlog
-}
+};
 
 const connectedNewBlog = connect(null, mapDispatchToProps)(NewBlog);
 

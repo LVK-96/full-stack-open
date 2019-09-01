@@ -5,7 +5,7 @@ import { like, removeBlog } from '../reducers/blogsReducer';
 
 const Blog = ({ blog, user, like, removeBlog }) => {
   const [extraBlogInfoVisible, setExtraBlogInfoVisible] = useState(false);
-  
+
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -30,7 +30,7 @@ const Blog = ({ blog, user, like, removeBlog }) => {
 
   return (
     <div>
-      <div className='basicInfo' onClick={() => 
+      <div className='basicInfo' onClick={() =>
         setExtraBlogInfoVisible(!extraBlogInfoVisible)}>
         {blog.title}
         {' '}
@@ -67,14 +67,14 @@ Blog.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    user: state.user
+    user: state.loggedUser
   };
 };
 
 const mapDispatchToProps = {
   like,
   removeBlog
-}
+};
 
 const connectedBlog = connect(mapStateToProps, mapDispatchToProps)(Blog);
 
