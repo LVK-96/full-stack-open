@@ -8,14 +8,14 @@ const Logout = ({ user, logout }) => {
   };
 
   return (
-    <div>
+    <>
       Logged in as
       {' '}
       {user.name}
       <button onClick={handleLogout}>
         logout
       </button>
-    </div>
+    </>
   );
 };
 
