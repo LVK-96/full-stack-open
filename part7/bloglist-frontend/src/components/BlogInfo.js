@@ -10,10 +10,10 @@ const BlogInfo = ({ blog, user }) => {
     borderWidth: 1,
     marginBottom: 5,
   };
-  
-  if (!blog) 
-    return null
-   
+
+  if (!blog)
+    return null;
+
   const handleLikeClick = (event) => {
     event.preventDefault();
     like(blog);
@@ -50,8 +50,8 @@ const BlogInfo = ({ blog, user }) => {
       </div>
       <div>
         <ul>
-          {blog.comments.map(comment => 
-            <li key={blog.id}>{comment}</li> )}     
+          {blog.comments.map(comment =>
+            <li key={blog.id}>{comment}</li> )}
         </ul>
       </div>
     </div>
@@ -69,7 +69,7 @@ const mapDispatchToProps = {
   removeBlog
 };
 
-const connectedBlogInfo = connect(mapStateToProps, mapDispatchToProps)(BlogInfo)
+const connectedBlogInfo = connect(mapStateToProps, mapDispatchToProps)(BlogInfo);
 
 export default connectedBlogInfo;
 

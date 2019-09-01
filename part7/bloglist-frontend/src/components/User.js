@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 const User = ({ user, blogs }) => {
   if (user === undefined) {
-    return null
+    return null;
   }
 
   const numAdded = blogs.length;
@@ -11,7 +11,7 @@ const User = ({ user, blogs }) => {
     <div>
       {user.name} {' '} has added {numAdded} {' '} blogs
       <ul>
-        {blogs.map(blog => 
+        {blogs.map(blog =>
           <li key={blog.id}>{blog.title}</li>
         )}
       </ul>
@@ -23,12 +23,12 @@ const mapStateToProps = (state, ownProps) => {
   if (!ownProps.user)
     return {
       blogs: null
-    }
-  
+    };
+
   return {
     blogs: state.blogs.filter(blog => blog.user.id === ownProps.user.id)
-  }
-}
+  };
+};
 
 const connectedUser = connect(mapStateToProps)(User);
 

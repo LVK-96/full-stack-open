@@ -39,7 +39,7 @@ blogsRouter.post('/:id/comments', async (request, response, next) => {
       comments: blog.comments.concat(body.text),
     };
 
-    const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, commentedBlog, { new: true })
+    const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, commentedBlog, { new: true });
     response.json(updatedBlog.toJSON());
   } catch (e) {
     next(e);
@@ -61,7 +61,7 @@ blogsRouter.post('/', async (request, response, next) => {
       author: body.author,
       url: body.url,
       likes: body.likes,
-      user: user,
+      user,
     });
 
     const savedBlog = await blog.save();
@@ -112,7 +112,7 @@ blogsRouter.put('/:id', async (request, response, next) => {
 
   try {
     const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, blog, { new: true })
-                                  .populate('user', { username: 1, name: 1});
+      .populate('user', { username: 1, name: 1 });
     response.json(updatedBlog.toJSON());
   } catch (e) {
     next(e);

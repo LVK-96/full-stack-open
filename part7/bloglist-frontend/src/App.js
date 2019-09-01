@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import BlogList from './components/BlogList';
 import BlogInfo from './components/BlogInfo';
 import UserList from './components/UserList';
@@ -15,14 +15,14 @@ import { initializeUsers } from './reducers/usersReducer';
 import { setUser } from './reducers/loginReducer';
 
 
-const App = ({ initializeBlogs, initializeUsers,  
-               user, setUser, users, blogs }) => {
+const App = ({ initializeBlogs, initializeUsers,
+  user, setUser, users, blogs }) => {
   const [addBlogVisible, setAddBlogVisible] = useState(false);
 
   useEffect(() => {
     initializeBlogs();
   }, [initializeBlogs]);
-  
+
   useEffect(() => {
     initializeUsers();
   }, [initializeUsers]);
@@ -34,14 +34,14 @@ const App = ({ initializeBlogs, initializeUsers,
       setUser(userFromStorage);
     }
   }, [setUser]);
-  
+
   const userById = (id) => {
-    return users.find(user => user.id === id)
-  }
-  
+    return users.find(user => user.id === id);
+  };
+
   const blogById = (id) => {
-    return blogs.find(blog => blog.id === id)
-  }
+    return blogs.find(blog => blog.id === id);
+  };
 
   if (!user) {
     return (
@@ -57,7 +57,7 @@ const App = ({ initializeBlogs, initializeUsers,
       <div className='blogList'>
         <Notification />
         <Menu />
-        <Route exact path='/' render={() => 
+        <Route exact path='/' render={() =>
           <div>
             <Togglable buttonLabel="add blog">
               <NewBlog
@@ -67,18 +67,18 @@ const App = ({ initializeBlogs, initializeUsers,
             </Togglable>
             <BlogList />
           </div>} />
-          <Route exact path='/users' render={() => 
-            <div>
-              <UserList />
-            </div>} />
-          <Route path='/users/:id' render={({ match }) => 
-            <div>
-              <User user={userById(match.params.id)}/>
-            </div>} />
-          <Route path='/blogs/:id' render={({ match }) => 
-            <div>
-              <BlogInfo blog={blogById(match.params.id)}/>
-            </div>} />
+        <Route exact path='/users' render={() =>
+          <div>
+            <UserList />
+          </div>} />
+        <Route path='/users/:id' render={({ match }) =>
+          <div>
+            <User user={userById(match.params.id)}/>
+          </div>} />
+        <Route path='/blogs/:id' render={({ match }) =>
+          <div>
+            <BlogInfo blog={blogById(match.params.id)}/>
+          </div>} />
       </div>
     </Router>
   );
