@@ -2,17 +2,31 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 const User = ({ user, blogs }) => {
-  const numAdded = blogs.filter(blog => blog.user.id === user.id).length; 
+  if (user === undefined) {
+    return null
+  }
+
+  const numAdded = blogs.length;
   return (
     <div>
-      {user.name} {' '} added {numAdded} {' '} blogs
+      {user.name} {' '} has added {numAdded} {' '} blogs
+      <ul>
+        {blogs.map(blog => 
+          <li key={blog.id}>{blog.title}</li>
+        )}
+      </ul>
     </div>
   );
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
+  if (!ownProps.user)
+    return {
+      blogs: null
+    }
+  
   return {
-    blogs: state.blogs
+    blogs: state.blogs.filter(blog => blog.user.id === ownProps.user.id)
   }
 }
 

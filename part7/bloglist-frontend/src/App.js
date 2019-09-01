@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import BlogList from './components/BlogList';
 import UserList from './components/UserList';
+import User from './components/User';
 import Menu from './components/Menu';
 import Login from './components/Login';
 import Logout from './components/Logout';
@@ -13,7 +14,8 @@ import { initializeBlogs } from './reducers/blogsReducer';
 import { initializeUsers } from './reducers/usersReducer';
 import { setUser } from './reducers/loginReducer';
 
-const App = ({ initializeBlogs, initializeUsers,  user, setUser }) => {
+
+const App = ({ initializeBlogs, initializeUsers,  user, setUser, users }) => {
   const [addBlogVisible, setAddBlogVisible] = useState(false);
 
   useEffect(() => {
@@ -31,6 +33,10 @@ const App = ({ initializeBlogs, initializeUsers,  user, setUser }) => {
       setUser(userFromStorage);
     }
   }, [setUser]);
+  
+  const userById = (id) => {
+    return users.find(user => user.id === id)
+  }
 
   if (!user) {
     return (
@@ -61,6 +67,10 @@ const App = ({ initializeBlogs, initializeUsers,  user, setUser }) => {
             <div>
               <UserList />
             </div>} />
+          <Route path='/users/:id' render={({ match }) => 
+            <div>
+              <User user={userById(match.params.id)}/>
+            </div>} />
       </div>
     </Router>
   );
@@ -68,7 +78,8 @@ const App = ({ initializeBlogs, initializeUsers,  user, setUser }) => {
 
 const mapStateToProps = (state) => {
   return {
-    user: state.loggedUser
+    user: state.loggedUser,
+    users: state.users
   };
 };
 
