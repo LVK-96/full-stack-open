@@ -18,8 +18,18 @@ export const createBlog = (content) => {
       data: newBlog
     });
   };
-
 };
+
+export const addComment = (blog, comment) => {
+  return async dispatch => {
+    const commented = await blogService.addComment(blog, comment);
+    dispatch({
+      type: 'ADD_COMMENT',
+      data: commented
+    });
+  };
+};
+
 export const removeBlog = (blog) => {
   return async dispatch => {
     await blogService.remove(blog);
@@ -56,6 +66,11 @@ const blogReducer = (state = [], action) => {
 
   case 'INIT_BLOGS':
     return action.data;
+
+  case 'ADD_COMMENT':
+    return state.map(blog =>
+      blog.id === action.data.id ? action.data: blog
+    );
 
   default:
     return state;

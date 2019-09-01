@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import BlogList from './components/BlogList';
-import BlogInfo from './components/BlogInfo';
+import Blog from './components/Blog';
 import UserList from './components/UserList';
 import User from './components/User';
 import Menu from './components/Menu';
@@ -77,7 +77,7 @@ const App = ({ initializeBlogs, initializeUsers,
           </div>} />
         <Route path='/blogs/:id' render={({ match }) =>
           <div>
-            <BlogInfo blog={blogById(match.params.id)}/>
+            <Blog blog={blogById(match.params.id)}/>
           </div>} />
       </div>
     </Router>

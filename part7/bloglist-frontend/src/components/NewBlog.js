@@ -5,7 +5,7 @@ import { useField } from '../hooks';
 import { showNotificationWithTimeout } from '../reducers/notificationReducer';
 import { createBlog } from '../reducers/blogsReducer';
 
-const NewBlog = ({ blogs, createBlog, showNotificationWithTimeout, setAddBlogVisible }) => {
+const NewBlog = ({ createBlog, showNotificationWithTimeout, setAddBlogVisible }) => {
   const addBlog = async (event) => {
     try {
       event.preventDefault();
