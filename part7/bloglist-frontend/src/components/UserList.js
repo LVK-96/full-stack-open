@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-const UserList = ({ users, blogs, id }) => {
+const UserList = ({ users, blogs }) => {
   const padding = {
     paddingRight: 5
   };

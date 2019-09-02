@@ -72,7 +72,7 @@ const Blog = ({ blog, user, like, removeBlog, addComment }) => {
     New comment:
           {' '}
           <input { ..._.omit(newComment, ['reset']) }/>
-          <button type="submit">submit comment</button>
+          <button type='submit'>submit comment</button>
         </form>
       </div>
     </div>

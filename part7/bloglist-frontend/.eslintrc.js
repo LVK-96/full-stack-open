@@ -13,6 +13,10 @@ module.exports = {
   "plugins": [
     "react", "jest"  ],
   "rules": {
+    "jsx-quotes": [
+      "error",
+      "prefer-single"
+    ],
     "indent": [
       "error",
       2      ],

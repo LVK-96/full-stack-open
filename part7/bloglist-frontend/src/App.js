@@ -54,12 +54,12 @@ const App = ({ initializeBlogs, initializeUsers,
 
   return (
     <Router>
-      <div className='blogList'>
+      <div className='container'>
         <Notification />
         <Menu />
         <Route exact path='/' render={() =>
           <div>
-            <Togglable buttonLabel="add blog">
+            <Togglable buttonLabel='add blog'>
               <NewBlog
                 addBlogVisible={addBlogVisible}
                 setAddBlogVisible={setAddBlogVisible}

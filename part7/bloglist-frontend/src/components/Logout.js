@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Button } from 'react-bootstrap';
 import { logout } from '../reducers/loginReducer';
 
 const Logout = ({ user, logout }) => {
@@ -12,9 +13,9 @@ const Logout = ({ user, logout }) => {
       Logged in as
       {' '}
       {user.name}
-      <button onClick={handleLogout}>
+      <Button className='ml-2' onClick={handleLogout}>
         logout
-      </button>
+      </Button>
     </>
   );
 };

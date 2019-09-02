@@ -31,7 +31,7 @@ const Login = ({ login, showNotificationWithTimeout }) => {
           password
           <input { ..._.omit(password, ['reset']) }/>
         </div>
-        <button type="submit">login</button>
+        <button type='submit'>login</button>
       </form>
     </div>
   );

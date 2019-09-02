@@ -1,16 +1,23 @@
 import React from 'react';
+import { Table } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 const BlogList = ({ blogs }) => {
   return (
-    <div>
+    <div className='mt-2'>
       <h2>Blogs</h2>
-      {blogs.map(blog =>
-        <div key={blog.id}>
-          <Link key={blog.id} to={`/blogs/${blog.id}`}>{blog.title}</Link>
-        </div>
-      )}
+      <Table striped>
+        <tbody>
+          {blogs.map(blog =>
+            <tr key={blog.id}>
+              <td>
+                <Link key={blog.id} to={`/blogs/${blog.id}`}>{blog.title}</Link>
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </Table>
     </div>
   );
 };
