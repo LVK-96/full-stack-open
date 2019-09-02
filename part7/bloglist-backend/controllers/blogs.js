@@ -33,8 +33,11 @@ blogsRouter.get('/:id/comments', async (request, response, next) => {
 blogsRouter.post('/:id/comments', async (request, response, next) => {
   const { body } = request;
   try {
+    const decodedToken = jwt.verify(request.token, process.env.SECRET);
+    if (!request.token || !decodedToken.id) {
+      return response.status(401).json({ error: 'token missing' });
+    }
     const blog = await Blog.findById(request.params.id);
-    console.log(blog);
     const commentedBlog = {
       comments: blog.comments.concat(body.text),
     };
