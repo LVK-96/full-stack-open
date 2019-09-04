@@ -25,11 +25,11 @@ const Login = ({ login, showNotificationWithTimeout }) => {
       <form onSubmit={handleLogin}>
         <div>
           username
-          <input { ..._.omit(username, ['reset']) }/>
+          <input { ..._.omit(username, ['reset']) } id='username'/>
         </div>
         <div>
           password
-          <input { ..._.omit(password, ['reset']) }/>
+          <input { ..._.omit(password, ['reset']) } id='password'/>
         </div>
         <button type='submit'>login</button>
       </form>

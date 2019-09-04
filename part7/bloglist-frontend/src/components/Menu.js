@@ -17,7 +17,7 @@ const Menu = () => {
               <Link style={padding} to='/'>Home</Link>
             </Nav.Link>
             <Nav.Link href='#' as='span'>
-              <Link style={padding} to='/users'>Users</Link>
+              <Link style={padding} to='/users' id='users'>Users</Link>
             </Nav.Link>
             <Nav.Link href='#' as='span'>
               <Logout />

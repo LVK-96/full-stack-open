@@ -58,13 +58,13 @@ blogsRouter.post('/', async (request, response, next) => {
     }
 
     const user = await User.findById(decodedToken.id);
-
     const blog = new Blog({
       title: body.title,
       author: body.author,
       url: body.url,
-      likes: body.likes,
+      likes: 0,
       user,
+      comments: [],
     });
 
     const savedBlog = await blog.save();
@@ -72,6 +72,7 @@ blogsRouter.post('/', async (request, response, next) => {
     await user.save();
     response.json(savedBlog.toJSON());
   } catch (e) {
+    console.log(e);
     next(e);
   }
 });

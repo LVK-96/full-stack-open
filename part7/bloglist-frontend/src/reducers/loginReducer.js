@@ -4,6 +4,7 @@ import blogService from '../services/blogs';
 export const login = (user) => {
   return async dispatch => {
     const loggedUser = await loginService.login(user);
+    blogService.setToken(loggedUser.token);
     window.localStorage.setItem(
       'loggedBlogappUser', JSON.stringify(loggedUser),
     );

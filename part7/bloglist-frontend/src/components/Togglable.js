@@ -15,7 +15,7 @@ const Togglable = (props) => {
     <div>
       <ButtonGroup className='addNewShow'>
         <div variant='primary' style={hideWhenVisible}>
-          <Button className='mt-2' onClick={toggleVisibility}>{props.buttonLabel}</Button>
+          <Button className='mt-2' onClick={toggleVisibility} id='togglable'>{props.buttonLabel}</Button>
         </div>
         <div style={showWhenVisible}>
           {props.children}

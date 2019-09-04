@@ -13,7 +13,7 @@ import Togglable from './components/Togglable';
 import { initializeBlogs } from './reducers/blogsReducer';
 import { initializeUsers } from './reducers/usersReducer';
 import { setUser } from './reducers/loginReducer';
-
+import blogService from './services/blogs';
 
 const App = ({ initializeBlogs, initializeUsers,
   user, setUser, users, blogs }) => {
@@ -32,6 +32,7 @@ const App = ({ initializeBlogs, initializeUsers,
     if (loggedUserJSON) {
       const userFromStorage = JSON.parse(loggedUserJSON);
       setUser(userFromStorage);
+      blogService.setToken(userFromStorage.token);
     }
   }, [setUser]);
 

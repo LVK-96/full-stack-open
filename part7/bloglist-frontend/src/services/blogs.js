@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 const baseUrl = `${BACKEND_URL}/api/blogs`;
+console.log(baseUrl);
 
 let token = null;
 
