@@ -7,6 +7,9 @@ const schema = new mongoose.Schema({
     minlength: 3,
     unique: true,
   },
+  favourite: {
+    type: String
+  }
 });
 
 module.exports = mongoose.model('User', schema);

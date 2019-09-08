@@ -41,6 +41,7 @@ const typeDefs = gql`
 
   type User {
     username: String!
+    favourite: String
     id: ID!
   }
 
@@ -70,6 +71,7 @@ const typeDefs = gql`
     ): Author
     createUser(
       username: String!
+      favourite: String
     ): User
     login(
       username: String!
