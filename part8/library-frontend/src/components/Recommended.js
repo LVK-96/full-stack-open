@@ -2,25 +2,24 @@ import React from 'react'
 import { gql } from 'apollo-boost'
 import { useQuery } from '@apollo/react-hooks'
 
-const ME_AND_GET_BOOKS = gql`
-{
-  me {
-    username
-    favourite
-  },
-  allBooks {
-    title
-    published
-    genres
-    author {
-      name
-    }
+const RECOMMENDED = gql`
+  query Recommended ($genre: String) {
+    allBooks (genre: $genre) {
+      title
+      published
+      genres
+      author {
+        name
+      }
+    },
   }
-}
 `
 
 const Recommended = (props) => {
-  const { loading, error, data } = useQuery(ME_AND_GET_BOOKS)
+  const { loading, error, data } = useQuery(RECOMMENDED, {
+    variables: { genre: props.user.favourite }
+  })
+
   if (loading) return null
   if (error) return error.message
 
@@ -28,7 +27,7 @@ const Recommended = (props) => {
     return null
   }
 
-  const user = data.me
+  const user = props.user
   const books = data.allBooks
   return (
     <div>
