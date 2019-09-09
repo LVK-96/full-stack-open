@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import gql from 'graphql-tag'
 import { useMutation } from '@apollo/react-hooks'
-import { GET_BOOKS } from './Books'
+import { FILTER_BOOKS } from './Books'
 
 const ADD_BOOK = gql`
   mutation AddBook(
@@ -22,16 +22,30 @@ const ADD_BOOK = gql`
 
 const NewBook = (props) => {
   const [title, setTitle] = useState('')
-  const [author, setAuhtor] = useState('')
+  const [author, setAuthor] = useState('')
   const [published, setPublished] = useState('')
   const [genre, setGenre] = useState('')
   const [genres, setGenres] = useState([])
-
   const [addBook, { loading, error }] = useMutation(
     ADD_BOOK,
     {
-      refetchQueries: [{ query: GET_BOOKS }],
-      ignoreResults: true
+      update: (store, response) => {
+        const dataInStore = store.readQuery({
+          query: FILTER_BOOKS,
+          variables: { genre: '' }
+        })
+        dataInStore.genres.push({
+          genres: response.data.addBook.genres,
+          __typename: 'Book',
+        })
+        dataInStore.books.push({
+          ...response.data.addBook
+        })
+        store.writeQuery({
+          query: FILTER_BOOKS,
+          data: dataInStore
+        })
+      }
     }
   )
 
@@ -41,14 +55,12 @@ const NewBook = (props) => {
 
   const submit = async (e) => {
     e.preventDefault()
-
     await addBook({variables: {
-      title: title, author: author, published: Number(published), genres: genres
+      title, author, published: Number(published), genres
     }})
-
     setTitle('')
     setPublished('')
-    setAuhtor('')
+    setAuthor('')
     setGenres([])
     setGenre('')
   }
@@ -72,7 +84,7 @@ const NewBook = (props) => {
           author
           <input
             value={author}
-            onChange={({ target }) => setAuhtor(target.value)}
+            onChange={({ target }) => setAuthor(target.value)}
           />
         </div>
         <div>

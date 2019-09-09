@@ -3,7 +3,7 @@ import Select from 'react-select'
 import { gql } from 'apollo-boost'
 import { useQuery } from '@apollo/react-hooks'
 
-export const GET_BOOKS = gql`
+export const FILTER_BOOKS = gql`
   query Books(
     $genre: String
     ) {
@@ -25,13 +25,12 @@ export const GET_BOOKS = gql`
 
 const Books = (props) => {
   const [genreFilter, setGenreFilter] = useState({ label: '', value: '' })
-  const { loading, error, data } = useQuery(GET_BOOKS, {
-    variables: { genre: genreFilter.value }
+  const { loading, error, data } = useQuery(FILTER_BOOKS, {
+    variables: { genre: genreFilter.value },
   })
 
   if (loading) return null
   if (error) return error.message
-
   if (!props.show) {
     return null
   }

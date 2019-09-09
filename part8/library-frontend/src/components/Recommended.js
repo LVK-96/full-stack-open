@@ -22,7 +22,6 @@ const Recommended = (props) => {
 
   if (loading) return null
   if (error) return error.message
-
   if (!props.show) {
     return null
   }
