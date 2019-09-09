@@ -2,7 +2,7 @@ import React from 'react'
 import { gql } from 'apollo-boost'
 import { useQuery } from '@apollo/react-hooks'
 
-const RECOMMENDED = gql`
+export const RECOMMENDED = gql`
   query Recommended ($genre: String) {
     allBooks (genre: $genre) {
       title

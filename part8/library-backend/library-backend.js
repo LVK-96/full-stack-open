@@ -1,6 +1,7 @@
 const {
   ApolloServer, UserInputError, AuthenticationError, gql, PubSub,
 } = require('apollo-server');
+const DataLoader = require('dataloader');
 const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
 const Author = require('./models/author');
@@ -24,6 +25,14 @@ mongoose.connect(MONGODB_URI, { useNewUrlParser: true })
   .catch((error) => {
     console.log('error connection to MongoDB:', error.message);
   });
+
+mongoose.set('debug', true);
+
+const batchBooks = async (keys) => {
+  const books = await Book.find({ author: { $in: keys } });
+  return keys.map((key) => books.filter((book) => book.author === key));
+};
+const bookLoader = new DataLoader((keys) => batchBooks(keys));
 
 const typeDefs = gql`
   type Book {
@@ -131,7 +140,7 @@ const resolvers = {
   Author: {
     bookCount: async (root) => {
       try {
-        const books = await Book.find({ author: root });
+        const books = await bookLoader.load(root._id);
         return books.length;
       } catch (e) {
         throw new Error(e.message);
@@ -221,7 +230,9 @@ const server = new ApolloServer({
           auth.substring(7), JWT_SECRET,
         );
         const currentUser = await User.findById(decodedToken.id);
-        return { currentUser };
+        return {
+          currentUser,
+        };
       } catch (e) {
         throw new AuthenticationError(e.message);
       }

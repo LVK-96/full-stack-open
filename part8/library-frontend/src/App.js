@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { gql } from 'apollo-boost'
-import { useQuery } from '@apollo/react-hooks'
+import { useQuery, useSubscription } from '@apollo/react-hooks'
 import Authors from './components/Authors'
-import Books from './components/Books'
+import Books, { FILTER_BOOKS } from './components/Books'
 import NewBook from './components/NewBook'
 import Login from './components/Login'
-import Recommended from './components/Recommended'
+import Recommended, { RECOMMENDED } from './components/Recommended'
 
 const ME = gql`
 {
@@ -16,10 +16,59 @@ const ME = gql`
 }
 `
 
+const BOOK_ADDED = gql`
+  subscription {
+    bookAdded {
+      title
+      published
+      genres
+      author {
+        name
+      }
+    }
+  }
+`
+
 const App = () => {
   const [page, setPage] = useState('authors')
   const [token, setToken] = useState(null)
   const { loading, error, data } = useQuery(ME)
+
+  useSubscription(BOOK_ADDED, {
+    onSubscriptionData: ({ subscriptionData, client }) => {
+      const addedBook = subscriptionData.data.bookAdded
+      window.alert(`${addedBook.title} added`)
+      const dataInStore1 = client.readQuery({
+        query: FILTER_BOOKS,
+        variables: { genre: '' }
+      })
+      dataInStore1.genres.push({
+        genres: addedBook.genres,
+        __typename: 'Book',
+      })
+      dataInStore1.books.push({
+        ...addedBook
+      })
+      client.writeQuery({
+        query: FILTER_BOOKS,
+        data: dataInStore1
+      })
+
+      if (addedBook.genres.includes(user.favourite)) {
+        const dataInStore2 = client.readQuery({
+          query: RECOMMENDED,
+          variables: { genre: user.favourite }
+        })
+        dataInStore2.allBooks.push({
+          ...addedBook
+        })
+        client.writeQuery({
+          query: RECOMMENDED,
+          data: dataInStore2
+        })
+      }
+    }
+  })
 
   useEffect(() => {
     const tokenFromLocalStorage = localStorage.getItem('user-token')

@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import gql from 'graphql-tag'
 import { useMutation } from '@apollo/react-hooks'
-import { FILTER_BOOKS } from './Books'
 
 const ADD_BOOK = gql`
   mutation AddBook(
@@ -26,28 +25,7 @@ const NewBook = (props) => {
   const [published, setPublished] = useState('')
   const [genre, setGenre] = useState('')
   const [genres, setGenres] = useState([])
-  const [addBook, { loading, error }] = useMutation(
-    ADD_BOOK,
-    {
-      update: (store, response) => {
-        const dataInStore = store.readQuery({
-          query: FILTER_BOOKS,
-          variables: { genre: '' }
-        })
-        dataInStore.genres.push({
-          genres: response.data.addBook.genres,
-          __typename: 'Book',
-        })
-        dataInStore.books.push({
-          ...response.data.addBook
-        })
-        store.writeQuery({
-          query: FILTER_BOOKS,
-          data: dataInStore
-        })
-      }
-    }
-  )
+  const [addBook, { loading, error }] = useMutation(ADD_BOOK)
 
   if (!props.show) {
     return null
