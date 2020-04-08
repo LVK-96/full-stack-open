@@ -1,4 +1,9 @@
-interface ExerciseReport {
+interface ExerciseParams {
+  target: number;
+  exerciseHours: Array<number>;
+}
+
+export interface ExerciseReport {
   periodLength: number;
   trainingDays: number;
   success: boolean;
@@ -8,21 +13,27 @@ interface ExerciseReport {
   average: number;
 }
 
-const parseExerciseArguments = (args: Array<string>): Array<number> => {
-  if (args.length < 4) throw new Error("Not enough arguments");
-  const res: Array<number> = [];
-  args.slice(2).forEach((arg: string) => {
-    if (!isNaN(Number(arg))) {
-      res.push(Number(arg));
+export const parseExerciseArguments = (target: string, exercises: Array<string>): ExerciseParams => {
+  let parsedTarget: number;
+  if (!isNaN(Number(target))) {
+    parsedTarget = Number(target);
+  } else {
+    throw new Error('Provided values were not numbers!');
+  }
+
+  const exerciseHours: Array<number> = [];
+  exercises.forEach((exercise: string) => {
+    if (!isNaN(Number(exercise))) {
+      exerciseHours.push(Number(exercise));
     } else {
       throw new Error('Provided values were not numbers!');
     }
   });
 
-  return res;
+  return { 'target': parsedTarget , exerciseHours };
 };
 
-const calculateExercises = (exerciseHours: Array<number>, target: number): ExerciseReport => {
+export const calculateExercises = (exerciseHours: Array<number>, target: number): ExerciseReport => {
   const daysExercised = exerciseHours.filter((a: number) => a !== 0).length;
   const exerciseSum = exerciseHours.reduce((a: number, b: number) => a + b);
   const avgExerciseTime = exerciseSum / exerciseHours.length;
@@ -50,10 +61,3 @@ const calculateExercises = (exerciseHours: Array<number>, target: number): Exerc
     average: avgExerciseTime
   };
 };
-
-try {
-  const exerciseHours = parseExerciseArguments(process.argv);
-  console.log(calculateExercises(exerciseHours.slice(1), exerciseHours[0]));
-} catch (e) {
-  console.log(e.message);
-}
