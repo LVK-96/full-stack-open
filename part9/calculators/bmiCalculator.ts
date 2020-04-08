@@ -1,14 +1,14 @@
-interface bmiValues {
+interface BmiValues {
   height: number;
   weight: number;
-};
+}
 
-export const parseBmiArguments = (height: string, weight: string): bmiValues => {
+export const parseBmiArguments = (height: string, weight: string): BmiValues => {
   if (!isNaN(Number(height)) && !isNaN(Number(weight))) {
     return {
       height: Number(height),
       weight: Number(weight)
-    }
+    };
   } else {
     throw new Error('Provided values were not numbers!');
   }

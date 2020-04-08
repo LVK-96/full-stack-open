@@ -1,4 +1,4 @@
-interface exerciseReport {
+interface ExerciseReport {
   periodLength: number;
   trainingDays: number;
   success: boolean;
@@ -6,7 +6,7 @@ interface exerciseReport {
   ratingDescription: string;
   target: number;
   average: number;
-};
+}
 
 const parseExerciseArguments = (args: Array<string>): Array<number> => {
   if (args.length < 4) throw new Error("Not enough arguments");
@@ -22,7 +22,7 @@ const parseExerciseArguments = (args: Array<string>): Array<number> => {
   return res;
 };
 
-const calculateExercises = (exerciseHours: Array<number>, target: number): exerciseReport => {
+const calculateExercises = (exerciseHours: Array<number>, target: number): ExerciseReport => {
   const daysExercised = exerciseHours.filter((a: number) => a !== 0).length;
   const exerciseSum = exerciseHours.reduce((a: number, b: number) => a + b);
   const avgExerciseTime = exerciseSum / exerciseHours.length;
