@@ -2,7 +2,7 @@ const calculateBmi = (height: number, weight: number): string => {
   const heightInMeters = 0.01 * height;
   const bmi = weight / (heightInMeters * heightInMeters);
 
-  let msg;
+  let msg: string;
   if (bmi > 40) {
     msg = "Obese Class III (Very severely obese)";
   } else if (bmi > 35) {
