@@ -3,7 +3,7 @@ import { Diagnose } from '../types';
 
 const diagnoses: Array<Diagnose> = diagnoseData as Array<Diagnose>;
 
-const getDiagnoses = (): Array<Diagnose> => {
+export const getDiagnoses = (): Diagnose[] => {
   return diagnoses;
 };
 
