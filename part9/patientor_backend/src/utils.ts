@@ -50,13 +50,12 @@ const parseOccupation = (occupation: any): string => {
   return occupation;
 };
 
-export const toNewPatient = (object: any) => {
-  const newEntry: NewPatient = {
+export const toNewPatient = (object: any): NewPatient => {
+  return {
     name: parseName(object.name),
     dateOfBirth: parseDateOfBirth(object.dateOfBirth),
     ssn: parseSsn(object.ssn),
     gender: parseGender(object.gender),
     occupation: parseOccupation(object.occupation),
   };
-  return newEntry;
 };

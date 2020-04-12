@@ -9,8 +9,7 @@ router.get('/', (_req, res) => {
 
 router.post('/', (req, res) => {
   try {
-    const { name, dateOfBirth, ssn, gender, occupation } = req.body;
-    const newPatient = addPatient({ name, dateOfBirth, ssn, gender, occupation });
+    const newPatient = addPatient(req.body);
     res.status(201).json(newPatient);
   } catch (e) {
     res.status(400).json({"error": e.message});

@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import patientData from '../../data/patients.json';
-import { Patient, NewPatient } from '../types';
+import { Patient } from '../types';
 import { toNewPatient } from '../utils';
 
 const patients: Array<Patient> = patientData as Array<Patient>;
@@ -15,8 +15,9 @@ export const getPatientsNonSensitive = (): Omit<Patient, 'ssn'>[] => {
   }));
 };
 
-export const addPatient = (newPatient: NewPatient): Patient => {
-  const newEntry = toNewPatient(newPatient);
+/* eslint-disable @typescript-eslint/no-explicit-any */
+export const addPatient = (object: any): Patient => {
+  const newEntry = toNewPatient(object);
   const newEntryWithId = { ...newEntry, id: uuidv4() };
   patients.push(newEntryWithId);
   return newEntryWithId;
