@@ -1,13 +1,14 @@
 import { v4 as uuidv4 } from 'uuid';
 import _ from 'lodash';
-import patientData from '../../data/patients.json';
+import patientData from '../../data/patients';
 import { Patient, PublicPatient } from '../types';
 import { toNewPatient } from '../utils';
 
-const patients: Array<Patient> = patientData as Array<Patient>;
+const patients = patientData;
 
 const getPatientById = (id: string): Patient | undefined => {
-  return patients.find((p) => p.id === id);
+  const patient = patients.find((p) => p.id === id);
+  return patient;
 };
 
 const getPatientByIdNonSensitive = (id: string): PublicPatient | undefined => {

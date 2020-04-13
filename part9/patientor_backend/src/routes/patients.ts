@@ -8,9 +8,9 @@ router.get('/', (_req, res) => {
 });
 
 router.get('/:id', (req, res) => {
-  const patientNonSensitive = patientService.getPatientById(req.params.id);
-  if (patientNonSensitive)
-    res.status(200).json(patientNonSensitive);
+  const patient = patientService.getPatientById(req.params.id);
+  if (patient)
+    res.status(200).json(patient);
   else
     res.status(404).json({});
 });
