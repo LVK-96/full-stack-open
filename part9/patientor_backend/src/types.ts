@@ -5,12 +5,12 @@ interface BaseEntry {
     description: string;
 }
 
-interface Discharge {
+export interface Discharge {
   date: string;
   criteria: string;
 }
 
-interface SickLeave {
+export interface SickLeave {
   startDate: string;
   endDate: string;
 }
@@ -36,6 +36,11 @@ interface OccupationalHealthcareEntry extends BaseEntryWithDiagnosisCodes {
 }
 
 export type Entry = HospitalEntry | HealthCheckEntry | OccupationalHealthcareEntry;
+
+export type NewHospitalEntry = Omit<HospitalEntry, 'id'>;
+export type NewHealtCheckEntry = Omit<HealthCheckEntry, 'id'>;
+export type NewOccupationalEntry = Omit<OccupationalHealthcareEntry, 'id'>;
+export type NewEntry = NewHospitalEntry | NewHealtCheckEntry | NewOccupationalEntry;
 
 export interface Diagnose {
   code: string;

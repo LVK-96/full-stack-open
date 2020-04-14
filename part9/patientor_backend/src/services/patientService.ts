@@ -1,8 +1,8 @@
 import { v4 as uuidv4 } from 'uuid';
 import _ from 'lodash';
 import patientData from '../../data/patients';
-import { Patient, PublicPatient } from '../types';
-import { toNewPatient } from '../utils';
+import { Patient, PublicPatient, Entry } from '../types';
+import { toNewPatient, toNewEntry } from '../utils';
 
 const patients = patientData;
 
@@ -28,9 +28,22 @@ const addPatient = (object: any): Patient => {
   return newEntryWithId;
 };
 
+const addEntry = (object: any, patientId: string): Entry => {
+  const patientIdx = patients.findIndex((p) => p.id === patientId);
+  if (patientIdx !== -1) {
+    const newEntry = toNewEntry(object);
+    const newEntryWithId = { ...newEntry, id: uuidv4() };
+    patients[patientIdx].entries.push(newEntryWithId);
+    return newEntryWithId;
+  }
+
+  throw new Error(`Patient with id: ${patientId} not found`);
+};
+
 export default {
   getPatientById,
   getPatientByIdNonSensitive,
   getPatientsNonSensitive,
-  addPatient
+  addPatient,
+  addEntry
 };
