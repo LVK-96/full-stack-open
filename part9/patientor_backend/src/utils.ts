@@ -102,7 +102,7 @@ const parseDiagnosisCodes = (codes: any): string[] => {
 };
 
 const parseHealtCheckRating = (rating: any): number => {
-  if (!rating || !isNumber(rating)) {
+  if (!isNumber(rating)) {
     throw new Error(`Not a valid rating: ${rating}`);
   }
 
