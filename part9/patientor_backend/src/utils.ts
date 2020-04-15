@@ -170,7 +170,7 @@ export const toNewEntry = (object: any): NewEntry => {
           employerName: parseEmployerName(object.employerName),
           ...(!!diagnosisCodes) && {diagnosisCodes},
           ...(!!sickLeave) && {sickLeave}
-        }
+        };
       default:
         throw new Error(`Invalid entry type: ${base.type}`);
     }
